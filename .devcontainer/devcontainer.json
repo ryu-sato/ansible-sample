@@ -1,5 +1,5 @@
 {
-	"name": "poetry3-poetry-pyenv",
+	"name": "ansible-sample",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},

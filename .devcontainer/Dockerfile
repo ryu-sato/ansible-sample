@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/devcontainers/base:jammy
-# FROM mcr.microsoft.com/devcontainers/base:jammy
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG USER=vscode
@@ -28,8 +27,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 # Python and poetry installation
 USER $USER
 ARG HOME="/home/$USER"
-ARG PYTHON_VERSION=3.10
-# ARG PYTHON_VERSION=3.10
+ARG PYTHON_VERSION=3.10.10
 
 ENV PYENV_ROOT="${HOME}/.pyenv"
 ENV PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${HOME}/.local/bin:$PATH"
@@ -41,5 +39,7 @@ RUN echo "done 0" \
     && echo "done 2" \
     && pyenv global ${PYTHON_VERSION} \
     && echo "done 3" \
-    && curl -sSL https://install.python-poetry.org | python3 - \
-    && poetry config virtualenvs.in-project true
+    && curl -sSL https://install.python-poetry.org | python3 -
+
+# global にインストールされる PyPI パッケージへのパス
+ENV PATH="${PYENV_ROOT}/versions/${PYTHON_VERSION}/bin:$PATH"

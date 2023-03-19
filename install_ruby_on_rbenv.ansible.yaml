@@ -39,7 +39,7 @@
       command: gem install bundler -v '< 2'
 
   post_tasks:
-  - name: ruby と bundler のバージョンを確認する
+  - name: Ruby と Bundler のバージョンを確認する
     block:
     - command: "{{ item }}"
       loop:
@@ -47,6 +47,6 @@
       - bundle --version
       changed_when: no
       register: versions
-    - name: ruby と bundler のバージョンを確認する
+    - name: Ruby と Bundler のバージョンを確認する
       debug:
         msg: "{{ versions.results | map(attribute='stdout') }}"

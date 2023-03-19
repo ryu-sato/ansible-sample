@@ -1,0 +1,32 @@
+- name: Install Node.js (マイナーアップデートは出来ない)
+  hosts: rails_servers
+
+  pre_tasks:
+  - assert:
+      that:
+      - nodejs_version is version_compare('0.0.0', '>=', version_type="semver")
+      - yarn_version is version_compare('0.0.0', '>=', version_type="semver")
+
+  tasks:
+  - name: Node.js をインストールする
+    yum:
+      name: nodejs-{{ nodejs_version }}-*
+      state: latest
+  - name: Yarn をインストールする
+    yum:
+      name: yarn-{{ yarn_version }}-*
+      state: latest
+
+  post_tasks:
+  - name: Node.js と NPM と Yarn のバージョンを表示する
+    block:
+    - command: "{{ item }}"
+      loop:
+      - node --version
+      - npm --version
+      - yarn --version
+      changed_when: no
+      register: versions
+    - name: Node.js と npm と yarn のバージョンを確認する
+      debug:
+        msg: "{{ versions.results | map(attribute='stdout') }}"

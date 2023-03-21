@@ -10,6 +10,8 @@ packages = []
 python = "^3.10"
 ansible = "^7.3.0"
 
+[tool.poetry.group.dev.dependencies]
+ansible-lint = { version = "^6.9.0", markers = "platform_system != 'Windows'" }
 
 [build-system]
 requires = ["poetry-core"]

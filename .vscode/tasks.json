@@ -1,0 +1,26 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Auto format current file",
+      "dependsOn": [
+        "depended_tasks--Install libraries"
+      ],
+      "type": "shell",
+      "command": "ansible-lint",
+      "args": [
+        "${file}",
+        "--write"
+      ],
+      "detail": "現在開いているファイルを ansible-lint でオートフォーマットする",
+      "isBackground": true,
+    },
+    {
+      "label": "depended_tasks--Install libraries",
+      "type": "shell",
+      "command": "poetry install"
+    }
+  ]
+}

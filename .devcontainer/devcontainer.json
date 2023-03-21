@@ -19,10 +19,24 @@
 			"extensions":[
 				"ms-python.python",
 				"njpwerner.autodocstring",
-				"redhat.ansible"
-			]
+				"redhat.ansible",
+				"Gruntfuggly.triggertaskonsave"
+			],
+			"settings": {
+				// redhat.ansible拡張機能用の設定
+				// 参考: https://marketplace.visualstudio.com/items?itemName=redhat.ansible
+				"redhat.telemetry.enabled": false,
+				// 保存時に ansible-lint で自動整形する
+				"triggerTaskOnSave.on": true,
+				"triggerTaskOnSave.tasks": {
+					"Auto format current file": [
+						"playbooks/**/*.y[a]ml",
+						"*.ansible.y[a]ml"
+					]
+				}
+			}
 		}
-	},
+	}
 
 	// 👇 Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"

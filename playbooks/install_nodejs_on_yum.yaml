@@ -1,0 +1,35 @@
+---
+- name: Install Node.js (メジャーアップデートは出来ない)
+  hosts: rails_servers
+
+  pre_tasks:
+    - name: バージョンが semver 表記で有効な値であることを確認する
+      ansible.builtin.assert:
+        that:
+          - nodejs_version is version_compare('0.0.0', '>=', version_type="semver")
+          - yarn_version is version_compare('0.0.0', '>=', version_type="semver")
+
+  tasks:
+    - name: Node.js をインストールする
+      ansible.builtin.yum:
+        name: nodejs-{{ nodejs_version }}-*
+        state: present
+    - name: Yarn をインストールする
+      ansible.builtin.yum:
+        name: yarn-{{ yarn_version }}-*
+        state: present
+
+  post_tasks:
+    - name: Node.js と NPM と Yarn のバージョンを表示する
+      block:
+        - name: Node.js と NPM と Yarn のバージョンを取得する
+          ansible.builtin.command: "{{ item }}"
+          loop:
+            - node --version
+            - npm --version
+            - yarn --version
+          changed_when: false
+          register: versions
+        - name: Node.js と NPM と Yarn のバージョンを表示する
+          ansible.builtin.debug:
+            msg: "{{ versions.results | map(attribute='stdout') }}"
